@@ -1,11 +1,8 @@
 package org.automation_practice.configuration;
 
-import org.aeonbits.owner.Config;
+public class Configuration {
 
-@Config.Sources("classpath:EnvironmentConfig.properties")
-public interface Configuration extends Config {
-
-    @Config.Key("BROWSER")
-    String browser();
+    public static final Browser BROWSER = Browser.fromText(System.getProperty("browser", "chrome"));
+    public static final String ENVIRONMENT = System.getProperty("environment", "prd");
 
 }

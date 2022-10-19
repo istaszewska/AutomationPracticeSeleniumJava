@@ -1,8 +1,8 @@
 package org.automation_practice.tests;
 
-import com.github.javafaker.Faker;
-import org.automation_practice.pageobjects.HomePage;
-import org.automation_practice.webdriver.WebDriverFactory;
+import org.automation_practice.configuration.TestData;
+import org.automation_practice.factory.WebDriverFactory;
+import org.automation_practice.model.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
@@ -10,12 +10,11 @@ import org.openqa.selenium.WebDriver;
 public abstract class AbstractTest {
 
     protected final WebDriver driver = WebDriverFactory.getWebDriver();
-    Faker f = new Faker();
-    HomePage homePage = new HomePage(driver);
+    protected final TestData testData = new TestData();
 
     @BeforeEach
     void setUp() {
-        driver.get("https://www.google.com");
+        driver.get("http://automationpractice.com");
     }
 
     @AfterAll
@@ -23,5 +22,17 @@ public abstract class AbstractTest {
         WebDriverFactory.quitWebDriver();
     }
 
+    protected void addSessionCookieToBrowserOf(User user) {
+        driver.manage().deleteAllCookies();
+        driver.manage().addCookie(user.getSessionCookie());
+        driver.navigate().refresh();
+    }
+
+    public boolean compareFloatNum(double a, double b) {
+        if (Math.abs(a - b) < 1e-9) {
+            return true;
+        }
+        return false;
+    }
 
 }
